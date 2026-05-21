@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berlin Curated | June 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --accent: #ff4500; /* Berlin Street Sign Orange */
+            --gray: #f4f4f4;
+            --black: #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 80px 0; border-bottom: 1px solid #eee; }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; text-transform: uppercase; letter-spacing: -1px; }
+        h1 { font-size: clamp(3rem, 10vw, 6rem); line-height: 0.9; margin-bottom: 20px; }
+        h2 { font-size: 2.5rem; margin-bottom: 40px; position: relative; }
+        h2::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 50px; height: 3px; background: var(--accent); }
+        .tag { font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--accent); display: block; margin-bottom: 10px; }
+        .lead { font-size: 1.05rem; max-width: 520px; margin-top: 20px; font-weight: 300; letter-spacing: 0.3px; color: rgba(255,255,255,0.88); }
+
+        .hero { height: 90vh; display: flex; align-items: flex-end; padding-bottom: 10vh; background: #000; color: #fff; position: relative; }
+        .hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; filter: grayscale(100%); }
+        .hero-content { position: relative; z-index: 2; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card { transition: transform 0.3s ease; display: flex; flex-direction: column; }
+        .card .img-container {
+            width: 100%;
+            height: 350px;
+            margin-bottom: 20px;
+            background: #eee;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #eee;
+        }
+        .card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: grayscale(100%); 
+            transition: filter 0.5s ease, transform 0.5s ease; 
+        }
+        .card:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        .card h3 { font-size: 1.4rem; margin-bottom: 8px; }
+        .card p { color: #555; font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; }
+        .card ul { padding-left: 18px; color: #555; font-size: 0.9rem; margin-bottom: 15px; }
+        .card li + li { margin-top: 8px; }
+
+        .map-link { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            color: var(--text); 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center;
+            border-bottom: 1px solid var(--text);
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+        .map-link:hover { color: var(--accent); border-color: var(--accent); }
+
+        .btn { 
+            display: inline-block; 
+            padding: 12px 25px; 
+            background: var(--text); 
+            color: #fff; 
+            text-decoration: none; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            font-size: 0.75rem; 
+            transition: background 0.3s;
+            text-align: center;
+        }
+        .btn:hover { background: var(--accent); }
+
+        .itinerary-section { background: var(--gray); padding: 80px 0; }
+        .itinerary-table-wrapper { overflow-x: auto; margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .itinerary-table { width: 100%; border-collapse: collapse; background: #fff; min-width: 1000px; }
+        .itinerary-table th, .itinerary-table td { text-align: left; padding: 15px 20px; border-bottom: 1px solid #eee; font-size: 0.85rem; }
+        .itinerary-table th { background: var(--black); color: #fff; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; }
+        .itinerary-table tr:hover { background: #fafafa; }
+        .badge { display: inline-block; padding: 2px 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 3px; }
+        .badge-free { background: #e6fffa; color: #2c7a7b; }
+        .badge-paid { background: #fff5f5; color: #c53030; }
+        .text-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .quick-grid, .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 30px; }
+        .quick-card, .info-card { border: 1px solid #ececec; background: #fff; padding: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); }
+        .quick-card h3, .info-card h3 { font-size: 1.2rem; margin-bottom: 12px; }
+        .quick-card p, .info-card p { color: #555; font-size: 0.95rem; margin-bottom: 0; }
+        .quick-card ul, .info-card ul { list-style: none; padding: 0; margin: 15px 0 0; }
+        .quick-card li, .info-card li { color: #444; font-size: 0.9rem; }
+        .quick-card li + li, .info-card li + li { margin-top: 10px; }
+        .callout { padding: 22px 24px; border-left: 3px solid var(--accent); background: #fff8f5; margin-top: 20px; }
+        .callout strong { display: block; margin-bottom: 8px; }
+        .section-anchor { scroll-margin-top: 28px; }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            h1 { font-size: 3.5rem; }
+            .hero { min-height: 78vh; height: auto; padding-top: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <img src="images/skyline.jpg" class="hero-img" alt="Berlin Skyline">
+        <div class="container">
+            <div class="hero-content">
+                <span class="tag">Berlin Master Guide</span>
+                <h1>BERLIN<br>UNFILTERED.</h1>
+                <p class="lead">Art, history, restaurants, cafés, concerts, and late-night stops for June 18–20, 2026.</p>
+                <div class="callout" style="max-width: 560px;">
+                    <strong>Best first bookings</strong>
+                    Schloss Bellevue timed entry, Borchardt for lunch, and the Friday/Saturday music slots at B-Flat or the Komische Oper.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container" style="padding-top: 60px;">
+        <span class="tag">Fast Track</span>
+        <h2>What to Lock In First</h2>
+        <div class="quick-grid">
+            <div class="quick-card">
+                <h3>Art Day</h3>
+                <p>Start with the three museum anchors and the city-wide Biennale layer.</p>
+                <ul>
+                    <li>Schloss Bellevue: timed free registration only.</li>
+                    <li>Hamburger Bahnhof: the Saturday English tour at 15:00.</li>
+                    <li>Alte Nationalgalerie: the Cassirer show tour at 16:00.</li>
+                    <li>Berlin Biennale: KW, AdK, and the city’s spillover points.</li>
+                </ul>
+            </div>
+            <div class="quick-card">
+                <h3>Lunch Lane</h3>
+                <p>The best meals are the ones that feel like Berlin still knows how to lunch.</p>
+                <ul>
+                    <li>Borchardt: schnitzel, red velvet, and book-ahead energy.</li>
+                    <li>Markthalle Neun: go Friday or Saturday for stalls.</li>
+                    <li>Café am Neuen See: sunny lunch, beer garden, boat rental.</li>
+                    <li>Joseph-Roth-Diele: quiet, old-school, and central.</li>
+                </ul>
+            </div>
+            <div class="quick-card">
+                <h3>Coffee + Design</h3>
+                <p>Use these for a reset between museums and shops.</p>
+                <ul>
+                    <li>Zeit für Brot: warm Schnecken and a real Berlin ritual.</li>
+                    <li>Father Carpenter: hidden courtyard coffee stop.</li>
+                    <li>The Store X: coffee and fashion inside Soho House.</li>
+                    <li>Andreas Murkudis: museum-like shopping on Potsdamer Str.</li>
+                </ul>
+            </div>
+            <div class="quick-card">
+                <h3>Evening</h3>
+                <p>Keep one dinner flexible and save energy for music or opera.</p>
+                <ul>
+                    <li>B-Flat: Friday/Saturday jazz.</li>
+                    <li>The Hat Bar: intimate late-night jams near Zoologischer Garten.</li>
+                    <li>Zig Zag Jazz Club: intimate Schöneberg crowd.</li>
+                    <li>Komische Oper: a fun, visual night with English surtitles.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ART -->
+    <section class="container">
+        <span class="tag">Phase 01: The Visuals</span>
+        <h2>The Crown Jewels</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="img-container"><img src="images/bellevue.jpg" alt="Schloss Bellevue" loading="lazy" decoding="async"></div>
+                <h3>Schloss Bellevue</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Schloss+Bellevue+Berlin" class="map-link">Open in Maps</a>
+                <p>The "Freiraum Kunst" gallery. Contemporary art inside the President's residence, June 18–20 only.</p>
+                <a href="https://freiraum-kunst.eu" class="btn">Register Tickets</a>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/hamburger.jpg" alt="Hamburger Bahnhof" loading="lazy" decoding="async"></div>
+                <h3>Hamburger Bahnhof</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Hamburger+Bahnhof+Berlin" class="map-link">Open in Maps</a>
+                <p>Contemporary art with the Saturday, June 20 English tour at 15:00.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/national.jpg" alt="Alte Nationalgalerie" loading="lazy" decoding="async"></div>
+                <h3>Alte Nationalgalerie</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Alte+Nationalgalerie+Berlin" class="map-link">Open in Maps</a>
+                <p>Neoclassical masterpiece. The Cassirer Impressionism tour on Saturday, June 20 at 16:00 is the move.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GDR HISTORY -->
+    <section class="container" style="background: #1a1a1a; color: #fff;">
+        <span class="tag">Phase 02: The Layers</span>
+        <h2 style="color: #fff;">East / West Perspectives</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="img-container"><img src="images/humboldt.jpg" alt="Humboldt Forum" loading="lazy" decoding="async"></div>
+                <h3 style="color: #fff;">Humboldt Forum</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Humboldt+Forum+Berlin" class="map-link" style="color: #fff; border-color: #fff;">Open in Maps</a>
+                <p style="color: #ccc;">Built where the Palace of the Republic once stood. Explore "Berlin Global" for an English deep-dive.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/ddr.jpg" alt="DDR Museum" loading="lazy" decoding="async"></div>
+                <h3 style="color: #fff;">DDR Museum</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=DDR+Museum+Berlin" class="map-link" style="color: #fff; border-color: #fff;">Open in Maps</a>
+                <p style="color: #ccc;">Interactive immersion into everyday socialist life. Highly engaging for English speakers.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/traenen.jpg" alt="Tränenpalast" loading="lazy" decoding="async"></div>
+                <h3 style="color: #fff;">Tränenpalast</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Tränenpalast+Berlin" class="map-link" style="color: #fff; border-color: #fff;">Open in Maps</a>
+                <p style="color: #ccc;">"Palace of Tears." The original border crossing pavilion with a moving English exhibition.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GOURMET & CAFES -->
+    <section class="container">
+        <span class="tag">Phase 03: The Soul</span>
+        <h2>Gourmet & Grit</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="img-container"><img src="images/borchardt.jpg" alt="Borchardt" loading="lazy" decoding="async"></div>
+                <h3>Borchardt</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Borchardt+Berlin" class="map-link">Open in Maps</a>
+                <p>Legendary power-lunch spot. Real Art Nouveau hall with red seating. Famous for Schnitzel. Book ahead.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/claerchens.jpg" alt="Clärchens Ballhaus" loading="lazy" decoding="async"></div>
+                <h3>Clärchens Ballhaus</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Clärchens+Ballhaus+Berlin" class="map-link">Open in Maps</a>
+                <p>100 years of dance history. Historic mirrored hall and a charming garden.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/zeit.jpg" alt="ZEIT Für Brot" loading="lazy" decoding="async"></div>
+                <h3>ZEIT Für Brot / Café</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Zeit+für+Brot+Berlin+Mitte" class="map-link">Open in Maps</a>
+                <p>The iconic 1950s gas station vibes. Famous for warm rolls and people-watching.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/joseph.jpg" alt="Joseph-Roth-Diele" loading="lazy" decoding="async"></div>
+                <h3>Joseph-Roth-Diele</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Joseph-Roth-Diele+Berlin" class="map-link">Open in Maps</a>
+                <p>A book-lined time capsule from the 1920s. Perfect for a quiet, authentic lunch.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/markthalle.jpg" alt="Markthalle Neun" loading="lazy" decoding="async"></div>
+                <h3>Markthalle Neun</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Markthalle+Neun+Berlin" class="map-link">Open in Maps</a>
+                <p>Kreuzberg's culinary heart. Go Friday or Saturday and look for Mogg's pastrami.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOPS -->
+    <section class="container" style="background: #fafafa;">
+        <span class="tag">Phase 04: The Edit</span>
+        <h2>Shops & Sanctuaries</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="img-container"><img src="images/soho.jpg" alt="Soho House" loading="lazy" decoding="async"></div>
+                <h3>The Store X</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=The+Store+X+Berlin" class="map-link">Open in Maps</a>
+                <p>Inside the Jonass Building. High-end curation, rare vinyl, and minimalist vibes.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/father.jpg" alt="Father Carpenter" loading="lazy" decoding="async"></div>
+                <h3>Father Carpenter</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Father+Carpenter+Berlin" class="map-link">Open in Maps</a>
+                <p>Stylish caffeine fix tucked in a stunning blue-tiled courtyard in Mitte.</p>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="images/voo.jpg" alt="Voo Store" loading="lazy" decoding="async"></div>
+                <h3>Voo Store</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Voo+Store+Berlin" class="map-link">Open in Maps</a>
+                <p>Industrial chic in a Kreuzberg backyard. World-class fashion selection.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container section-anchor" id="nightlife" style="padding-top: 40px;">
+        <span class="tag">Phase 05: After Dark</span>
+        <h2>Music, Opera, and Late Hours</h2>
+        <div class="info-grid">
+            <div class="info-card" style="background: #111; color: #fff; border-color: #111;">
+                <h3 style="color: #fff;">B-Flat Jazz Club</h3>
+                <p style="color: #bbb;">Friday/Saturday, June 19 and 20. Best if you want the most Berlin-ish jazz room on the list.</p>
+                <ul style="color: #ddd;">
+                    <li>June 19/20 at 21:00.</li>
+                    <li>Good for: dark room, serious players, late drink.</li>
+                </ul>
+            </div>
+            <div class="info-card" style="background: #fafafa;">
+                <h3>The Hat Bar</h3>
+                <p>Under the tracks at Zoologischer Garten. Intimate, smoky, and reliably alive every night.</p>
+                <ul>
+                    <li>Best as an after-dinner stop.</li>
+                    <li>Great if you want an unpolished, local jam feel.</li>
+                </ul>
+            </div>
+            <div class="info-card" style="background: #fafafa;">
+                <h3>Zig Zag Jazz Club</h3>
+                <p>Schöneberg’s small-room, high-payoff option. Good for an intimate, local Saturday night.</p>
+                <ul>
+                    <li>Saturday, June 20: Uri Gincel is the note from the brief.</li>
+                    <li>Best if you want close-up playing and no fuss.</li>
+                </ul>
+            </div>
+            <div class="info-card" style="background: #fafafa;">
+                <h3>Komische Oper</h3>
+                <p>The revue at Schillertheater gives you the fun, visual Berlin night with English surtitles.</p>
+                <ul>
+                    <li>Perfect if you want something theatrical rather than clubby.</li>
+                    <li>Keep it as a backup if the jazz rooms are full.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="container section-anchor" id="more-ideas" style="padding-top: 20px;">
+        <span class="tag">Phase 06: The Extras</span>
+        <h2>Good Places You Were Missing</h2>
+        <div class="quick-grid">
+            <div class="quick-card">
+                <h3>Berliner Unterwelten</h3>
+                <p>Go for Tour M if you want the most direct Berlin Wall escape-tunnel story.</p>
+                <ul>
+                    <li>Book 3 weeks early.</li>
+                    <li>Daily public English tours.</li>
+                </ul>
+            </div>
+            <div class="quick-card">
+                <h3>Ticket B</h3>
+                <p>Architecture tours in English, usually weekends around 11:00.</p>
+                <ul>
+                    <li>Ideal as a second-day add-on.</li>
+                    <li>Good if you want built-environment context between museums.</li>
+                </ul>
+            </div>
+            <div class="quick-card">
+                <h3>Café am Neuen See</h3>
+                <p>Classic Tiergarten lunch: lake, beer garden, and enough room to breathe.</p>
+                <ul>
+                    <li>Best when the weather is good.</li>
+                    <li>Bring time for a boat rental if you linger.</li>
+                </ul>
+            </div>
+            <div class="quick-card">
+                <h3>Andreas Murkudis</h3>
+                <p>Museum-grade retail on Potsdamer Strasse, especially if fashion matters as much as food.</p>
+                <ul>
+                    <li>Good paired with a walk through the gallery district.</li>
+                    <li>One of the cleanest design stops in the city.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- MASTER LIST -->
+    <section class="itinerary-section section-anchor" id="schedule">
+        <div class="container">
+            <span class="tag">Full Directory</span>
+            <h2>The Master List</h2>
+            <div class="itinerary-table-wrapper">
+                <table class="itinerary-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Venue / Event</th>
+                            <th>District</th>
+                            <th>Day / Time</th>
+                            <th>Fee</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fff8f5; font-weight: 600;">
+                            <td>🌟 Special</td>
+                            <td>Mittendrin: Konzerthausorchester</td>
+                            <td>Mitte</td>
+                            <td>Thu, June 18 | 20:00</td>
+                            <td><span class="badge badge-paid">Paid</span></td>
+                            <td><a href="https://www.konzerthaus.de/en/programm/mittendrin/11732" class="text-link">Tickets</a></td>
+                        </tr>
+                        <tr>
+                            <td>Art</td>
+                            <td>Schloss Bellevue</td>
+                            <td>Tiergarten</td>
+                            <td>June 18-20 | 11:00-19:00</td>
+                            <td><span class="badge badge-free">Free (Reg.)</span></td>
+                            <td><a href="https://freiraum-kunst.eu" class="text-link">Register</a></td>
+                        </tr>
+                        <tr>
+                            <td>Art</td>
+                            <td>Hamburger Bahnhof</td>
+                            <td>Mitte</td>
+                            <td>Sat, June 20 | 15:00 (Tour)</td>
+                            <td><span class="badge badge-free">Free w/ Tkt</span></td>
+                            <td><a href="https://www.smb.museum/en" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Art</td>
+                            <td>Alte Nationalgalerie</td>
+                            <td>Mitte</td>
+                            <td>Sat, June 20 | 16:00 (Tour)</td>
+                            <td><span class="badge badge-paid">€€</span></td>
+                            <td><a href="https://www.smb.museum/en" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>History</td>
+                            <td>Humboldt Forum</td>
+                            <td>Mitte</td>
+                            <td>Daily | 10:00-20:00</td>
+                            <td><span class="badge badge-free">Free / Paid</span></td>
+                            <td><a href="https://www.humboldtforum.org/en" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>History</td>
+                            <td>DDR Museum</td>
+                            <td>Mitte</td>
+                            <td>Daily | 09:00-21:00</td>
+                            <td><span class="badge badge-paid">~€13</span></td>
+                            <td><a href="https://www.ddr-museum.de/en" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>History</td>
+                            <td>Tränenpalast</td>
+                            <td>Mitte</td>
+                            <td>Daily | 09:00-19:00</td>
+                            <td><span class="badge badge-free">Free Entry</span></td>
+                            <td><a href="https://www.visitberlin.de/en/traenenpalast" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Gourmet</td>
+                            <td>Borchardt</td>
+                            <td>Mitte</td>
+                            <td>Daily | Lunch/Dinner</td>
+                            <td><span class="badge badge-paid">€€€</span></td>
+                            <td><a href="http://borchardt-restaurant.de" class="text-link">Res.</a></td>
+                        </tr>
+                        <tr>
+                            <td>Gourmet</td>
+                            <td>Clärchens Ballhaus</td>
+                            <td>Mitte</td>
+                            <td>Daily | 11:00-Late</td>
+                            <td><span class="badge badge-free">Free Entry</span></td>
+                            <td><a href="https://www.ballhaus.de/en/" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Cafe</td>
+                            <td>ZEIT Für Brot</td>
+                            <td>Mitte</td>
+                            <td>Daily | 08:00-20:00</td>
+                            <td><span class="badge badge-paid">€</span></td>
+                            <td><a href="https://zeitfuerbrot.com" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Gourmet</td>
+                            <td>Markthalle Neun</td>
+                            <td>Kreuzberg</td>
+                            <td>Fri-Sat | 10:00-18:00</td>
+                            <td><span class="badge badge-free">Free Entry</span></td>
+                            <td><a href="https://markthalleneun.de" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Music</td>
+                            <td>B-Flat Jazz Club</td>
+                            <td>Mitte</td>
+                            <td>June 19/20 | 21:00</td>
+                            <td><span class="badge badge-paid">~€20</span></td>
+                            <td><a href="http://b-flat-berlin.de" class="text-link">Prog.</a></td>
+                        </tr>
+                        <tr>
+                            <td>Art</td>
+                            <td>Berlin Biennale 13</td>
+                            <td>Citywide</td>
+                            <td>June 18-20 | Daytime</td>
+                            <td><span class="badge badge-paid">Mixed</span></td>
+                            <td><a href="https://www.berlinbiennale.de/en" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Lunch</td>
+                            <td>Café am Neuen See</td>
+                            <td>Tiergarten</td>
+                            <td>Daily | Lunch / Afternoon</td>
+                            <td><span class="badge badge-paid">€€</span></td>
+                            <td><a href="https://neuensee.de/en/" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Cafe</td>
+                            <td>Father Carpenter</td>
+                            <td>Mitte</td>
+                            <td>Daily | Breakfast / Brunch</td>
+                            <td><span class="badge badge-paid">€€</span></td>
+                            <td><a href="https://fathercarpenter.com/en-fr" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Shop</td>
+                            <td>The Store X</td>
+                            <td>Mitte</td>
+                            <td>Daily | Coffee + Retail</td>
+                            <td><span class="badge badge-paid">€€€</span></td>
+                            <td><a href="https://www.thestorex.com" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Shop</td>
+                            <td>Andreas Murkudis</td>
+                            <td>Potsdamer Str.</td>
+                            <td>Daily | Design / Retail</td>
+                            <td><span class="badge badge-paid">€€€</span></td>
+                            <td><a href="https://andreasmurkudis.com" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Music</td>
+                            <td>The Hat Bar</td>
+                            <td>Charlottenburg</td>
+                            <td>Nightly | Late</td>
+                            <td><span class="badge badge-paid">~€15</span></td>
+                            <td><a href="https://www.thehatbar.de" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Music</td>
+                            <td>Zig Zag Jazz Club</td>
+                            <td>Schöneberg</td>
+                            <td>Sat, June 20 | Night</td>
+                            <td><span class="badge badge-paid">~€20</span></td>
+                            <td><a href="https://www.zigzag-jazzclub.berlin" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Opera</td>
+                            <td>Komische Oper Revue</td>
+                            <td>Schillertheater</td>
+                            <td>June 18-20 | Evening</td>
+                            <td><span class="badge badge-paid">€€</span></td>
+                            <td><a href="https://www.komische-oper-berlin.de/en/" class="text-link">Web</a></td>
+                        </tr>
+                        <tr>
+                            <td>Tour</td>
+                            <td>Berliner Unterwelten (Tour M)</td>
+                            <td>Gesundbrunnen</td>
+                            <td>Daily | English tours</td>
+                            <td><span class="badge badge-paid">€€</span></td>
+                            <td><a href="https://www.berliner-unterwelten.de/en/" class="text-link">Book</a></td>
+                        </tr>
+                        <tr>
+                            <td>Tour</td>
+                            <td>Ticket B Architecture Walks</td>
+                            <td>Various</td>
+                            <td>Weekend | ~11:00</td>
+                            <td><span class="badge badge-paid">€€</span></td>
+                            <td><a href="https://ticket-b.de/en/" class="text-link">Book</a></td>
+                        </tr>
+                        <tr>
+                            <td>Event</td>
+                            <td>Köpenicker Sommer</td>
+                            <td>Köpenick</td>
+                            <td>June 19-21 | Water festival</td>
+                            <td><span class="badge badge-free">Free / Local</span></td>
+                            <td><a href="https://www.berlin.de/en/events/5565659-2842498-koepenicker-sommer.en.html" class="text-link">Info</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 60px 0; text-align: center; background: #000; color: #fff;">
+        <p style="letter-spacing: 5px; text-transform: uppercase; font-size: 0.7rem; color: #666;">Berlin Curated // June 18—20, 2026</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                const venue = this.alt || "Berlin Highlight";
+                const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#111"/><text x="80" y="360" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">${venue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</text><text x="80" y="420" fill="#bbb" font-family="Arial, Helvetica, sans-serif" font-size="20">Berlin Master Guide</text></svg>`;
+                this.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+                this.style.filter = "none";
+            };
+        });
+    </script>
+
+</body>
+</html>
