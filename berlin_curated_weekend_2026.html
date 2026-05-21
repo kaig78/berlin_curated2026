@@ -39,21 +39,38 @@
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.34) 55%, rgba(0,0,0,0.58) 100%),
-                linear-gradient(90deg, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.02) 55%, rgba(0,0,0,0.30) 100%);
+                linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,235,210,0.10) 45%, rgba(0,0,0,0.18) 100%),
+                linear-gradient(90deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.00) 55%, rgba(0,0,0,0.08) 100%);
             z-index: 1;
             pointer-events: none;
         }
-        .hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.72; filter: saturate(1.15) contrast(1.05); }
+        .hero-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            opacity: 1;
+            filter: brightness(1.35) saturate(1.45) contrast(1.08);
+        }
         .hero-content {
             position: relative;
             z-index: 2;
             max-width: 760px;
             padding: 28px 30px 30px;
-            background: rgba(0,0,0,0.42);
-            border: 1px solid rgba(255,255,255,0.10);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 24px 70px rgba(0,0,0,0.22);
+            background: rgba(255,255,255,0.82);
+            border: 1px solid rgba(255,255,255,0.70);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 24px 70px rgba(0,0,0,0.14);
+        }
+        .hero-content .tag { color: #b13d12; }
+        .hero-content h1,
+        .hero-content .lead { color: #111; text-shadow: none; }
+        .hero-content .callout {
+            background: rgba(17,17,17,0.95);
+            border-left-color: #ff4500;
         }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
@@ -283,6 +300,7 @@
                 <div class="img-container"><img src="images/bellevue.jpg" alt="Schloss Bellevue" loading="lazy" decoding="async"></div>
                 <h3>Schloss Bellevue</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=Schloss+Bellevue+Berlin" class="map-link">Open in Maps</a>
+                <a href="https://freiraum-kunst.eu" class="site-link">Open Site</a>
                 <p>The "Freiraum Kunst" gallery. Contemporary art inside the President's residence, June 18–20 only.</p>
                 <a href="https://freiraum-kunst.eu" class="btn">Register Tickets</a>
             </div>
@@ -290,12 +308,14 @@
                 <div class="img-container"><img src="images/hamburger.jpg" alt="Hamburger Bahnhof" loading="lazy" decoding="async"></div>
                 <h3>Hamburger Bahnhof</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=Hamburger+Bahnhof+Berlin" class="map-link">Open in Maps</a>
+                <a href="https://www.smb.museum/en/museums-institutions/hamburger-bahnhof/home/" class="site-link">Open Site</a>
                 <p>Contemporary art with the Saturday, June 20 English tour at 15:00.</p>
             </div>
             <div class="card">
                 <div class="img-container"><img src="images/national.jpg" alt="Alte Nationalgalerie" loading="lazy" decoding="async"></div>
                 <h3>Alte Nationalgalerie</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=Alte+Nationalgalerie+Berlin" class="map-link">Open in Maps</a>
+                <a href="https://www.smb.museum/en/museums-institutions/alte-nationalgalerie/home/" class="site-link">Open Site</a>
                 <p>Neoclassical masterpiece. The Cassirer Impressionism tour on Saturday, June 20 at 16:00 is the move.</p>
             </div>
         </div>
@@ -310,18 +330,21 @@
                 <div class="img-container"><img src="images/humboldt.jpg" alt="Humboldt Forum" loading="lazy" decoding="async"></div>
                 <h3 style="color: #fff;">Humboldt Forum</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=Humboldt+Forum+Berlin" class="map-link" style="color: #fff; border-color: #fff;">Open in Maps</a>
+                <a href="https://www.humboldtforum.org/en/" class="site-link">Open Site</a>
                 <p style="color: #ccc;">Built where the Palace of the Republic once stood. Explore "Berlin Global" for an English deep-dive.</p>
             </div>
             <div class="card">
                 <div class="img-container"><img src="images/ddr.jpg" alt="DDR Museum" loading="lazy" decoding="async"></div>
                 <h3 style="color: #fff;">DDR Museum</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=DDR+Museum+Berlin" class="map-link" style="color: #fff; border-color: #fff;">Open in Maps</a>
+                <a href="https://www.ddr-museum.de/en" class="site-link">Open Site</a>
                 <p style="color: #ccc;">Interactive immersion into everyday socialist life. Highly engaging for English speakers.</p>
             </div>
             <div class="card">
                 <div class="img-container"><img src="images/traenen.jpg" alt="Tränenpalast" loading="lazy" decoding="async"></div>
                 <h3 style="color: #fff;">Tränenpalast</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=Tränenpalast+Berlin" class="map-link" style="color: #fff; border-color: #fff;">Open in Maps</a>
+                <a href="https://www.hdg.de/en/traenenpalast/" class="site-link">Open Site</a>
                 <p style="color: #ccc;">"Palace of Tears." The original border crossing pavilion with a moving English exhibition.</p>
             </div>
         </div>
